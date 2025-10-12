@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        .countdown-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .countdown {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .countdown:hover {
+            transform: translateY(-5px);
+        }
+        
+        .countdown-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #ff7e5f;
+        }
+        
+        .timer {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+        
+        .time-unit {
+            flex: 1;
+        }
+        
+        .time-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .time-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+        
+        .target-date {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            .timer {
+                flex-wrap: wrap;
+            }
+            
+            .time-unit {
+                flex: 0 0 50%;
+                margin-bottom: 1rem;
+            }
+            
+            .time-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Countdown Timers</h1>
+        <p class="subtitle">Time until important dates</p>
+    </header>
+    
+    <div class="countdown-container">
+        <div class="countdown">
+            <h2 class="countdown-title">November 17, 2025</h2>
+            <div class="timer">
+                <div class="time-unit">
+                    <div class="time-value" id="days1">00</div>
+                    <div class="time-label">Days</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="hours1">00</div>
+                    <div class="time-label">Hours</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="minutes1">00</div>
+                    <div class="time-label">Minutes</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="seconds1">00</div>
+                    <div class="time-label">Seconds</div>
+                </div>
+            </div>
+            <p class="target-date">Target: November 17, 2025 at 00:00</p>
+        </div>
+        
+        <div class="countdown">
+            <h2 class="countdown-title">Christmas Eve 2025</h2>
+            <div class="timer">
+                <div class="time-unit">
+                    <div class="time-value" id="days2">00</div>
+                    <div class="time-label">Days</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="hours2">00</div>
+                    <div class="time-label">Hours</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="minutes2">00</div>
+                    <div class="time-label">Minutes</div>
+                </div>
+                <div class="time-unit">
+                    <div class="time-value" id="seconds2">00</div>
+                    <div class="time-label">Seconds</div>
+                </div>
+            </div>
+            <p class="target-date">Target: December 24, 2025 at 00:00</p>
+        </div>
+    </div>
+
+    <script>
+        // Set the target dates
+        const targetDate1 = new Date('November 17, 2025 00:00:00').getTime();
+        const targetDate2 = new Date('December 24, 2025 00:00:00').getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            
+            // Calculate time remaining for first countdown
+            const timeRemaining1 = targetDate1 - now;
+            
+            const days1 = Math.floor(timeRemaining1 / (1000 * 60 * 60 * 24));
+            const hours1 = Math.floor((timeRemaining1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes1 = Math.floor((timeRemaining1 % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds1 = Math.floor((timeRemaining1 % (1000 * 60)) / 1000);
+            
+            // Update first countdown display
+            document.getElementById('days1').textContent = days1.toString().padStart(2, '0');
+            document.getElementById('hours1').textContent = hours1.toString().padStart(2, '0');
+            document.getElementById('minutes1').textContent = minutes1.toString().padStart(2, '0');
+            document.getElementById('seconds1').textContent = seconds1.toString().padStart(2, '0');
+            
+            // Calculate time remaining for second countdown
+            const timeRemaining2 = targetDate2 - now;
+            
+            const days2 = Math.floor(timeRemaining2 / (1000 * 60 * 60 * 24));
+            const hours2 = Math.floor((timeRemaining2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes2 = Math.floor((timeRemaining2 % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds2 = Math.floor((timeRemaining2 % (1000 * 60)) / 1000);
+            
+            // Update second countdown display
+            document.getElementById('days2').textContent = days2.toString().padStart(2, '0');
+            document.getElementById('hours2').textContent = hours2.toString().padStart(2, '0');
+            document.getElementById('minutes2').textContent = minutes2.toString().padStart(2, '0');
+            document.getElementById('seconds2').textContent = seconds2.toString().padStart(2, '0');
+            
+            // If the countdown is over
+            if (timeRemaining1 < 0 || timeRemaining2 < 0) {
+                clearInterval(countdownInterval);
+                if (timeRemaining1 < 0) {
+                    document.querySelector('.countdown:nth-child(1) .timer').innerHTML = "<div style='text-align:center; font-size: 2rem;'>The event has arrived!</div>";
+                }
+                if (timeRemaining2 < 0) {
+                    document.querySelector('.countdown:nth-child(2) .timer').innerHTML = "<div style='text-align:center; font-size: 2rem;'>Merry Christmas!</div>";
+                }
+            }
+        }
+        
+        // Update the countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // Initial call to display countdown immediately
+        updateCountdown();
+    </script>
+</body>
+</html>
