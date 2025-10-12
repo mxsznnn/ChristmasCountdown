@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timers</title>
+    <title>Winter Countdowns</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,96 +14,232 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, #0c1445, #1a237e, #283593);
             color: #fff;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Snow effect */
+        .snow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            font-size: 1.5rem;
+            opacity: 0.8;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
         
         header {
             text-align: center;
             margin-bottom: 3rem;
+            padding-top: 1rem;
         }
         
         h1 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            background: linear-gradient(to right, #e3f2fd, #bbdefb, #90caf9);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(100, 150, 255, 0.6);
+            }
         }
         
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
         }
         
         .countdown-container {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 2rem;
-            width: 100%;
-            max-width: 800px;
+            margin-bottom: 2rem;
         }
         
         .countdown {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 20px;
+            padding: 2.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            width: 100%;
+            max-width: 550px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .countdown:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        .countdown::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #4fc3f7, #29b6f6, #03a9f4);
         }
         
         .countdown-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin-bottom: 1.5rem;
             text-align: center;
-            color: #ff7e5f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .birthday .countdown-title {
+            color: #ffcc80;
+        }
+        
+        .christmas .countdown-title {
+            color: #81c784;
         }
         
         .timer {
             display: flex;
             justify-content: space-between;
             text-align: center;
+            margin-bottom: 1.5rem;
         }
         
         .time-unit {
             flex: 1;
+            padding: 0.5rem;
         }
         
         .time-value {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .birthday .time-value {
+            background: linear-gradient(to right, #ffcc80, #ffb74d, #ffa726);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 0.5rem;
+        }
+        
+        .christmas .time-value {
+            background: linear-gradient(to right, #81c784, #66bb6a, #4caf50);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
         .time-label {
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            opacity: 0.7;
+            opacity: 0.8;
+            letter-spacing: 1px;
         }
         
         .target-date {
             text-align: center;
             margin-top: 1.5rem;
             font-style: italic;
-            opacity: 0.8;
+            opacity: 0.9;
+            font-size: 1.1rem;
         }
         
-        @media (max-width: 600px) {
+        .icon {
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .message {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
             .timer {
                 flex-wrap: wrap;
             }
@@ -113,66 +250,185 @@
             }
             
             .time-value {
+                font-size: 2.5rem;
+                height: 70px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .time-unit {
+                flex: 0 0 100%;
+            }
+            
+            .time-value {
                 font-size: 2rem;
+                height: 60px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .countdown-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 2s infinite;
+        }
+        
+        @keyframes sparkle {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Countdown Timers</h1>
-        <p class="subtitle">Time until important dates</p>
-    </header>
+    <div class="snow" id="snow"></div>
     
-    <div class="countdown-container">
-        <div class="countdown">
-            <h2 class="countdown-title">November 17, 2025</h2>
-            <div class="timer">
-                <div class="time-unit">
-                    <div class="time-value" id="days1">00</div>
-                    <div class="time-label">Days</div>
+    <div class="container">
+        <header>
+            <h1 class="floating">Winter Countdowns</h1>
+            <p class="subtitle">Counting down to special moments in the winter season</p>
+        </header>
+        
+        <div class="countdown-container">
+            <div class="countdown birthday">
+                <h2 class="countdown-title">
+                    <i class="fas fa-birthday-cake icon"></i>
+                    My Birthday
+                </h2>
+                <div class="timer">
+                    <div class="time-unit">
+                        <div class="time-value" id="days1">00</div>
+                        <div class="time-label">Days</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="hours1">00</div>
+                        <div class="time-label">Hours</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="minutes1">00</div>
+                        <div class="time-label">Minutes</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="seconds1">00</div>
+                        <div class="time-label">Seconds</div>
+                    </div>
                 </div>
-                <div class="time-unit">
-                    <div class="time-value" id="hours1">00</div>
-                    <div class="time-label">Hours</div>
-                </div>
-                <div class="time-unit">
-                    <div class="time-value" id="minutes1">00</div>
-                    <div class="time-label">Minutes</div>
-                </div>
-                <div class="time-unit">
-                    <div class="time-value" id="seconds1">00</div>
-                    <div class="time-label">Seconds</div>
-                </div>
+                <p class="target-date">Target: November 17, 2025 at 00:00</p>
             </div>
-            <p class="target-date">Target: November 17, 2025 at 00:00</p>
+            
+            <div class="countdown christmas">
+                <h2 class="countdown-title">
+                    <i class="fas fa-tree icon"></i>
+                    Christmas Eve
+                </h2>
+                <div class="timer">
+                    <div class="time-unit">
+                        <div class="time-value" id="days2">00</div>
+                        <div class="time-label">Days</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="hours2">00</div>
+                        <div class="time-label">Hours</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="minutes2">00</div>
+                        <div class="time-label">Minutes</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="seconds2">00</div>
+                        <div class="time-label">Seconds</div>
+                    </div>
+                </div>
+                <p class="target-date">Target: December 24, 2025 at 00:00</p>
+            </div>
         </div>
         
-        <div class="countdown">
-            <h2 class="countdown-title">Christmas Eve 2025</h2>
-            <div class="timer">
-                <div class="time-unit">
-                    <div class="time-value" id="days2">00</div>
-                    <div class="time-label">Days</div>
-                </div>
-                <div class="time-unit">
-                    <div class="time-value" id="hours2">00</div>
-                    <div class="time-label">Hours</div>
-                </div>
-                <div class="time-unit">
-                    <div class="time-value" id="minutes2">00</div>
-                    <div class="time-label">Minutes</div>
-                </div>
-                <div class="time-unit">
-                    <div class="time-value" id="seconds2">00</div>
-                    <div class="time-label">Seconds</div>
-                </div>
-            </div>
-            <p class="target-date">Target: December 24, 2025 at 00:00</p>
+        <div class="message">
+            <p>Winter is a magical time of year, filled with celebrations and joy. 
+            These countdowns help build excitement for the special days ahead!</p>
         </div>
     </div>
 
     <script>
+        // Create snowflakes
+        function createSnow() {
+            const snowContainer = document.getElementById('snow');
+            const snowflakes = ['❄', '❅', '❆', '•'];
+            
+            for (let i = 0; i < 100; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = Math.random() * 5 + 5 + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = Math.random() * 10 + 15 + 'px';
+                snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+                snowContainer.appendChild(snowflake);
+            }
+        }
+        
+        // Create sparkles
+        function createSparkles() {
+            const countdowns = document.querySelectorAll('.countdown');
+            
+            countdowns.forEach(countdown => {
+                for (let i = 0; i < 15; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    sparkle.style.animationDuration = Math.random() * 2 + 1 + 's';
+                    countdown.appendChild(sparkle);
+                }
+            });
+        }
+        
         // Set the target dates
         const targetDate1 = new Date('November 17, 2025 00:00:00').getTime();
         const targetDate2 = new Date('December 24, 2025 00:00:00').getTime();
@@ -210,15 +466,18 @@
             
             // If the countdown is over
             if (timeRemaining1 < 0 || timeRemaining2 < 0) {
-                clearInterval(countdownInterval);
                 if (timeRemaining1 < 0) {
-                    document.querySelector('.countdown:nth-child(1) .timer').innerHTML = "<div style='text-align:center; font-size: 2rem;'>The event has arrived!</div>";
+                    document.querySelector('.birthday .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Happy Birthday! 🎉</div>";
                 }
                 if (timeRemaining2 < 0) {
-                    document.querySelector('.countdown:nth-child(2) .timer').innerHTML = "<div style='text-align:center; font-size: 2rem;'>Merry Christmas!</div>";
+                    document.querySelector('.christmas .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Merry Christmas! 🎄</div>";
                 }
             }
         }
+        
+        // Initialize effects
+        createSnow();
+        createSparkles();
         
         // Update the countdown every second
         const countdownInterval = setInterval(updateCountdown, 1000);
