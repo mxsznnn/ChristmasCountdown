@@ -104,7 +104,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.5s ease, box-shadow 0.5s ease;
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -122,11 +122,22 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(to right, #4fc3f7, #29b6f6, #03a9f4);
+        }
+        
+        .birthday .countdown::before {
+            background: linear-gradient(to right, #ffcc80, #ffb74d, #ffa726);
+        }
+        
+        .harry .countdown::before {
+            background: linear-gradient(to right, #ce93d8, #ba68c8, #ab47bc);
+        }
+        
+        .christmas .countdown::before {
+            background: linear-gradient(to right, #81c784, #66bb6a, #4caf50);
         }
         
         .countdown-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 1.5rem;
             text-align: center;
             display: flex;
@@ -137,6 +148,10 @@
         
         .birthday .countdown-title {
             color: #ffcc80;
+        }
+        
+        .harry .countdown-title {
+            color: #ce93d8;
         }
         
         .christmas .countdown-title {
@@ -156,7 +171,7 @@
         }
         
         .time-value {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
@@ -169,6 +184,13 @@
         
         .birthday .time-value {
             background: linear-gradient(to right, #ffcc80, #ffb74d, #ffa726);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .harry .time-value {
+            background: linear-gradient(to right, #ce93d8, #ba68c8, #ab47bc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -360,10 +382,10 @@
                 <p class="target-date">Target: November 17, 2025 at 00:00</p>
             </div>
             
-            <div class="countdown christmas">
+            <div class="countdown harry">
                 <h2 class="countdown-title">
-                    <i class="fas fa-tree icon"></i>
-                    Christmas Eve
+                    <i class="fas fa-gift icon"></i>
+                    Harry's Birthday
                 </h2>
                 <div class="timer">
                     <div class="time-unit">
@@ -380,6 +402,32 @@
                     </div>
                     <div class="time-unit">
                         <div class="time-value" id="seconds2">00</div>
+                        <div class="time-label">Seconds</div>
+                    </div>
+                </div>
+                <p class="target-date">Target: December 9, 2025 at 00:00</p>
+            </div>
+            
+            <div class="countdown christmas">
+                <h2 class="countdown-title">
+                    <i class="fas fa-tree icon"></i>
+                    Christmas Eve
+                </h2>
+                <div class="timer">
+                    <div class="time-unit">
+                        <div class="time-value" id="days3">00</div>
+                        <div class="time-label">Days</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="hours3">00</div>
+                        <div class="time-label">Hours</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="minutes3">00</div>
+                        <div class="time-label">Minutes</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="time-value" id="seconds3">00</div>
                         <div class="time-label">Seconds</div>
                     </div>
                 </div>
@@ -431,12 +479,13 @@
         
         // Set the target dates
         const targetDate1 = new Date('November 17, 2025 00:00:00').getTime();
-        const targetDate2 = new Date('December 24, 2025 00:00:00').getTime();
+        const targetDate2 = new Date('December 9, 2025 00:00:00').getTime();
+        const targetDate3 = new Date('December 24, 2025 00:00:00').getTime();
         
         function updateCountdown() {
             const now = new Date().getTime();
             
-            // Calculate time remaining for first countdown
+            // Calculate time remaining for first countdown (Your Birthday)
             const timeRemaining1 = targetDate1 - now;
             
             const days1 = Math.floor(timeRemaining1 / (1000 * 60 * 60 * 24));
@@ -450,7 +499,7 @@
             document.getElementById('minutes1').textContent = minutes1.toString().padStart(2, '0');
             document.getElementById('seconds1').textContent = seconds1.toString().padStart(2, '0');
             
-            // Calculate time remaining for second countdown
+            // Calculate time remaining for second countdown (Harry's Birthday)
             const timeRemaining2 = targetDate2 - now;
             
             const days2 = Math.floor(timeRemaining2 / (1000 * 60 * 60 * 24));
@@ -464,12 +513,29 @@
             document.getElementById('minutes2').textContent = minutes2.toString().padStart(2, '0');
             document.getElementById('seconds2').textContent = seconds2.toString().padStart(2, '0');
             
+            // Calculate time remaining for third countdown (Christmas)
+            const timeRemaining3 = targetDate3 - now;
+            
+            const days3 = Math.floor(timeRemaining3 / (1000 * 60 * 60 * 24));
+            const hours3 = Math.floor((timeRemaining3 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes3 = Math.floor((timeRemaining3 % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds3 = Math.floor((timeRemaining3 % (1000 * 60)) / 1000);
+            
+            // Update third countdown display
+            document.getElementById('days3').textContent = days3.toString().padStart(2, '0');
+            document.getElementById('hours3').textContent = hours3.toString().padStart(2, '0');
+            document.getElementById('minutes3').textContent = minutes3.toString().padStart(2, '0');
+            document.getElementById('seconds3').textContent = seconds3.toString().padStart(2, '0');
+            
             // If the countdown is over
-            if (timeRemaining1 < 0 || timeRemaining2 < 0) {
+            if (timeRemaining1 < 0 || timeRemaining2 < 0 || timeRemaining3 < 0) {
                 if (timeRemaining1 < 0) {
                     document.querySelector('.birthday .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Happy Birthday! 🎉</div>";
                 }
                 if (timeRemaining2 < 0) {
+                    document.querySelector('.harry .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Happy Birthday Harry! 🎁</div>";
+                }
+                if (timeRemaining3 < 0) {
                     document.querySelector('.christmas .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Merry Christmas! 🎄</div>";
                 }
             }
