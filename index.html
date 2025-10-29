@@ -385,7 +385,7 @@
             <div class="countdown harry">
                 <h2 class="countdown-title">
                     <i class="fas fa-gift icon"></i>
-                    Harry's Birthday
+                    Green's Birthday
                 </h2>
                 <div class="timer">
                     <div class="time-unit">
@@ -405,7 +405,7 @@
                         <div class="time-label">Seconds</div>
                     </div>
                 </div>
-                <p class="target-date">Target: December 9, 2025 at 00:00</p>
+                <p class="target-date">Target: December 6, 2025 at 00:00</p>
             </div>
             
             <div class="countdown christmas">
@@ -479,7 +479,7 @@
         
         // Set the target dates
         const targetDate1 = new Date('November 17, 2025 00:00:00').getTime();
-        const targetDate2 = new Date('December 9, 2025 00:00:00').getTime();
+        const targetDate2 = new Date('December 6, 2025 00:00:00').getTime();
         const targetDate3 = new Date('December 24, 2025 00:00:00').getTime();
         
         function updateCountdown() {
@@ -499,7 +499,7 @@
             document.getElementById('minutes1').textContent = minutes1.toString().padStart(2, '0');
             document.getElementById('seconds1').textContent = seconds1.toString().padStart(2, '0');
             
-            // Calculate time remaining for second countdown (Harry's Birthday)
+            // Calculate time remaining for second countdown (Green's Birthday)
             const timeRemaining2 = targetDate2 - now;
             
             const days2 = Math.floor(timeRemaining2 / (1000 * 60 * 60 * 24));
@@ -533,7 +533,7 @@
                     document.querySelector('.birthday .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Happy Birthday! 🎉</div>";
                 }
                 if (timeRemaining2 < 0) {
-                    document.querySelector('.harry .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Happy Birthday Harry! 🎁</div>";
+                    document.querySelector('.harry .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Happy Birthday Green! 🎁</div>";
                 }
                 if (timeRemaining3 < 0) {
                     document.querySelector('.christmas .timer').innerHTML = "<div style='text-align:center; font-size: 2.5rem; padding: 2rem;' class='pulse'>Merry Christmas! 🎄</div>";
